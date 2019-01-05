@@ -3,7 +3,7 @@
     <div class="row">
       <Sidebar class="col-2"/>
       <div class="content col-10">
-        <BusinessCard />
+        <BusinessCard v-for="item in data" :key="item.id" :cityTitle="item.city" :cityPrice="item.price" :cityCategory="item.category" :cityName="item.name"/>
       </div>
     </div>
   </div>
@@ -21,8 +21,17 @@ export default {
   },
   data () {
     return {
-      rest: this.$store.state.defaultData.city
+      data: this.$store.state.defaultData.data
     }
   }
 }
 </script>
+
+<style lang="scss">
+  .content {
+    /*justify-content: space-around;*/
+    align-content: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+  }
+</style>
