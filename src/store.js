@@ -13,5 +13,14 @@ export default new Vuex.Store({
       category: category,
       data: data
     }
+  },
+  mutations: {
+    increment (state) {
+      // изменяем состояние
+      state.count++
+    }
+  },
+  actions: {
+
   }
 })

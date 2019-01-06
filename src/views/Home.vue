@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <Sidebar class="col-2"/>
-      <div class="content col-10">
+      <Sidebar />
+      <div class="content col-12 col-sm-9 col-md-9">
         <BusinessCard v-for="item in data" :key="item.id" :cityTitle="item.city" :cityPrice="item.price" :cityCategory="item.category" :cityName="item.name"/>
       </div>
     </div>

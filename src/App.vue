@@ -6,6 +6,6 @@
 
 <style lang="scss">
   #app {
-    margin: 20px;
+    margin: 20px 0;
   }
 </style>

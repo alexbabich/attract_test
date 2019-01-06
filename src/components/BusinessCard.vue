@@ -65,7 +65,7 @@ export default {
         .card-img {
             overflow: hidden;
             height: 180px;
-            border-radius: 0;
+            border-radius: 0 !important;
             position: relative;
             &:before {
                 content: '';
