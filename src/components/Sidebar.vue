@@ -3,7 +3,7 @@
     <div class="att-filter-block">
       <p class="att-filter-title">City</p>
       <div class="input-group">
-        <select class="custom-select att-select" v-model="selectedCity" @change="selectCity(selectedCity)">
+        <select class="custom-select att-select" v-model="selectedCity">
           <option selected value="0">Select all</option>
           <option v-for="city in citys"
                   :key="city.id"
@@ -34,25 +34,15 @@ export default {
   name: 'Sidebar',
   data () {
     return {
-      checkCheck: false,
-      selCheck: false,
       checkedItem: [],
-      selectedCity: '',
+      selectedCity: 0,
       category: this.$store.state.defaultData.category,
       citys: this.$store.state.defaultData.city
     }
   },
   computed: {
-    doubleAge: function () {
-      return 2 * this.age
-    }
   },
   methods: {
-    selectCity (item) {
-      this.selCheck = true
-      this.$emit('select-city', item)
-      this.$emit('sidebarfilter', item)
-    },
     countCategory (value) {
       let count = 0
       for (const item of this.$store.state.defaultData.data) {
@@ -64,16 +54,11 @@ export default {
     }
   },
   watch: {
-    checkCheck: function () {
-      this.selectedCity = ''
-    },
-    selCheck: function () {
-      this.checkedItem = []
-    },
     checkedItem: function (val) {
-      this.checkCheck = true
       this.$emit('checked-category', val)
-      this.$emit('sidebarfilter', val)
+    },
+    selectedCity: function (val) {
+      this.$emit('select-city', val)
     }
   }
 }
@@ -147,12 +132,6 @@ export default {
     }
     .custom-checkbox .custom-control-input:checked~.att-category-title:after {
       background: url("../assets/img/checkbox_checked.png") !important;
-    }
-  }
-  @media (max-width: 700px) {
-    .att-sidebar-wrapper {
-      .att-filter-block {
-      }
     }
   }
   @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (orientation: landscape) {
