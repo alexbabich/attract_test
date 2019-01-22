@@ -1,6 +1,6 @@
 <template>
   <div class="col att-sidebar-wrapper">
-    <div class="att-filter-block mb-5">
+    <div class="att-filter-block">
       <p class="att-filter-title">City</p>
       <div class="input-group">
         <select class="custom-select att-select" v-model="selectedCity" @change="selectCity(selectedCity)">
@@ -13,7 +13,7 @@
         </select>
       </div>
     </div>
-    <div class="att-filter-block mb-5">
+    <div class="att-filter-block">
       <p class="att-filter-title">Category</p>
       <div class="input-group">
         <ul class="att-list-of-category list-unstyled">
@@ -42,10 +42,16 @@ export default {
       citys: this.$store.state.defaultData.city
     }
   },
+  computed: {
+    doubleAge: function () {
+      return 2 * this.age
+    }
+  },
   methods: {
     selectCity (item) {
       this.selCheck = true
       this.$emit('select-city', item)
+      this.$emit('sidebarfilter', item)
     },
     countCategory (value) {
       let count = 0
@@ -67,6 +73,7 @@ export default {
     checkedItem: function (val) {
       this.checkCheck = true
       this.$emit('checked-category', val)
+      this.$emit('sidebarfilter', val)
     }
   }
 }
@@ -74,22 +81,48 @@ export default {
 
 <style lang="scss">
   .att-sidebar-wrapper {
-    padding-left: 100px !important;
-    min-width: 200px;
-    max-width: 350px !important;
+    width: 270px !important;
+    max-width: 270px !important;
+    padding-right: 0 !important;
+    @media (max-width: 960px) {
+      width: 220px !important;
+      max-width: 220px !important;
+      padding-right: 15px !important;
+    }
+    @media (max-width: 700px) {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    .att-filter-block {
+      margin-bottom: 50px;
+      @media (max-width: 700px) {
+        margin-bottom: 25px;
+      }
+    }
   }
   .att-select {
     background: url("../assets/img/icn_arrow_down.png") no-repeat calc(100% - 10px) center !important;
     border-radius: 0 !important;
+    &:-moz-focusring {
+      color: transparent;
+      text-shadow: 0 0 0 #000;
+    }
   }
   .att-filter-title {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     text-transform: uppercase;
+    @media (max-width: 700px) {
+      margin-bottom: 5px;
+    }
   }
   .att-list-of-category {
     .att-category-item {
       margin-bottom: 7px;
+      @media (max-width: 700px) {
+        display: inline-block;
+        width: 50%;
+      }
     }
     .att-category-count {
       color: #a6a9af;
@@ -114,6 +147,18 @@ export default {
     }
     .custom-checkbox .custom-control-input:checked~.att-category-title:after {
       background: url("../assets/img/checkbox_checked.png") !important;
+    }
+  }
+  @media (max-width: 700px) {
+    .att-sidebar-wrapper {
+      .att-filter-block {
+      }
+    }
+  }
+  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (orientation: landscape) {
+    .att-sidebar-wrapper {
+      position: fixed !important;
+      width: 300px !important;
     }
   }
 </style>

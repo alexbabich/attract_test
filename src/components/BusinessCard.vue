@@ -1,7 +1,7 @@
 <template>
   <div class="card att-card" @click="goTodetail(item.id)">
       <div class="card-img att-card-img">
-          <img class="card-img-top att-card-img-top" :src="require(`@/assets/img/photo-${item.id}.jpeg`)" alt="card image" />
+          <img class="att-card-img-top" :src="require(`@/assets/img/photo-${item.id}.jpeg`)" alt="card image" />
           <div class="att-img-text">
               <p>{{getCity(item.city)}}</p>
           </div>
@@ -9,7 +9,7 @@
       <div class="card-body att-card-body">
           <h5 class="att-card-title">{{item.name}}</h5>
           <div class="att-more-info">
-              <p class="att-card-category pull-left">{{getCategory(item.category)}}</p>
+              <p class="att-card-category">{{getCategory(item.category)}}</p>
               <p class="att-card-price pull-right">${{item.price}}</p>
           </div>
       </div>
@@ -43,7 +43,10 @@ export default {
         width: 270px;
         height: 320px;
         border-radius: 0 !important;
-        margin: 0 25px 25px;
+        margin: 0 30px 25px 0;
+        &:nth-child(3n+3) {
+          margin-right: 0;
+        }
         &:hover {
             box-shadow: 0 0 20px 2px #c0c0c0;
             cursor: pointer;
@@ -77,12 +80,13 @@ export default {
                 z-index: 9;
             }
             .att-card-img-top {
-                transform: scale(1.5);
+                width: auto;
+                height: 100%;
             }
             .att-img-text {
                 color: #fff;
-                position: relative;
-                top: -30px;
+                position: absolute;
+                bottom: 0;
                 z-index: 99;
                 padding: 0 23px;
                 font-family: 'Raleway', sans-serif;
@@ -98,11 +102,13 @@ export default {
                 font-weight: bold;
                 font-family: 'Montserrat', sans-serif;
                 font-size: 16px;
+                @extend %pull-right;
             }
             .att-card-category {
                 font-family: 'Raleway', sans-serif;
                 font-size: 13px;
                 color: #a6a9af;
+                @extend %pull-left;
             }
         }
         .att-card-title {
@@ -119,6 +125,44 @@ export default {
             width: 100%;
             padding: 0 20px;
             height: 0;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .att-card {
+            &:nth-child(3n+3) {
+                margin-right: 30px;
+            }
+            &:nth-child(2n+2) {
+                margin-right: 0;
+            }
+        }
+    }
+
+    @media (max-width: 960px) {
+        .att-card {
+            &:nth-child(3n+3) {
+                margin-right: 10px;
+            }
+            &:nth-child(2n+2) {
+                margin-right: 0;
+            }
+            margin: 0 10px 25px 0;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .att-card {
+            width: 100%;
+            min-width: 270px !important;
+            margin: 0 auto 25px;
+            &:nth-child(3n+3) {
+                margin-right: auto;
+            }
+            .att-card-img .att-card-img-top {
+                width: 100%;
+                object-fit: cover;
+            }
         }
     }
 </style>

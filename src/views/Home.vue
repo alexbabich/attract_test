@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <Sidebar @select-city="selectCity" @checked-category="checkedCategory" />
-      <div class="content col-12 col-sm-9 col-md-9" v-cloak>
+      <Sidebar @select-city="selectCity" @checked-category="checkedCategory" @sidebarfilter="chengefilter"/>
+      <div class="content col att-content" v-cloak>
         <BusinessCard v-for="item in filteredList(select)"
                       :key="item.id"
                       :item="item" />
@@ -25,9 +25,11 @@ export default {
     return {
       selectCheck: [],
       checkCat: [],
-      select: 0,
+      select: '',
       data: this.$store.state.defaultData.data
     }
+  },
+  computed: {
   },
   methods: {
     checkedCategory (e) {
@@ -35,6 +37,18 @@ export default {
     },
     selectCity (e) {
       this.select = e
+    },
+    chengefilter (e) {
+      if (typeof e === 'object') {
+        e.map(resp => {
+          this.selectCheck.push(resp)
+          console.log(this.selectCheck)
+        })
+      } else if (typeof e === 'number') {
+        console.log('number')
+      } else {
+        return false
+      }
     },
     filteredList (val) {
       if (this.select > 0) {
@@ -75,9 +89,24 @@ export default {
 </script>
 
 <style lang="scss">
-  .content {
+  .att-content {
     align-content: flex-start;
     display: flex;
     flex-wrap: wrap;
+
+    @media (max-width: 960px) {
+      padding: 0 !important;
+    }
+    @media (max-width: 768px) {
+      padding: 0 15px !important;
+    }
+  }
+
+  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (orientation: landscape) {
+    .att-content {
+      position: relative;
+      width: calc(100% - 300px) !important;
+      margin-left: 300px;
+    }
   }
 </style>
