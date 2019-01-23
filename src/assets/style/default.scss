@@ -11,3 +11,11 @@ $text-color: #33363e;
   float: right !important;
 }
 
+@mixin centered ($top, $bottom, $left, $right) {
+  position: absolute;
+  margin: auto;
+  top: $top;
+  bottom: $bottom;
+  left: $left;
+  right: $right;
+}

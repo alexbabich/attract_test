@@ -29,12 +29,27 @@ export default {
       data: this.$store.state.defaultData.data
     }
   },
-  computed: {
+  beforeMount () {
+    if (localStorage.getItem('checked')) this.checkCat = JSON.parse(localStorage.getItem('checked'))
+    if (localStorage.getItem('selected')) this.select = JSON.parse(localStorage.getItem('selected'))
   },
   methods: {
+    selectFilter (val) {
+      const tmpArr = []
+      if (this.select !== 0) {
+        val.map(response => {
+          if (response.city === this.select) {
+            tmpArr.push(response)
+          }
+        })
+        return tmpArr
+      } else {
+        return val
+      }
+    },
     checkedFilter (val) {
-      var tmpval = this.checkCat
-      var tmpArr = []
+      const tmpval = this.checkCat
+      const tmpArr = []
       if (tmpval.length > 0) {
         tmpval.map(function (i) {
           val.find(response => {
@@ -56,38 +71,19 @@ export default {
       this.select = e
     },
     filteredList (val) {
-      if (this.checkedCategory) {
+      let tmpArr = []
+      if (this.select !== 0) {
+        tmpArr = this.selectFilter(val)
+        if (this.checkedCategory) {
+          return this.checkedFilter(tmpArr)
+        } else {
+          return tmpArr
+        }
+      } else if (this.checkedCategory) {
         return this.checkedFilter(val)
+      } else {
+        return this.data
       }
-      if (this.selectCity) {
-        console.log(this.select)
-        var tmpval = this.select
-        return val.filter(response => response.city === tmpval)
-      }
-      // if (this.select > 0) {
-      //   val = this.select
-      //   return this.data.filter(response => response.city === val)
-      // } else if (this.checkedCategory) {
-      //   this.select = 0
-      //   val = this.checkCat
-      //   var data = this.$store.state.defaultData.data
-      //   var tmpArr = []
-      //   if (val.length > 0) {
-      //     val.map(function (i) {
-      //       data.find(response => {
-      //         if (response.category === i) {
-      //           tmpArr.push(response)
-      //         }
-      //       })
-      //     })
-      //     this.selectCheck = tmpArr
-      //     return this.selectCheck
-      //   } else {
-      //     return this.data
-      //   }
-      // } else {
-      //   return this.data
-      // }
     }
   },
   watch: {
@@ -113,6 +109,15 @@ export default {
     @media (max-width: 768px) {
       padding: 0 15px !important;
     }
+  }
+
+  .att-message {
+      position: relative;
+      h3 {
+          @include centered (50%, 50%, 0, 0);
+          width: 50vw;
+          text-align: center;
+      }
   }
 
   @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (orientation: landscape) {

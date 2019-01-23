@@ -26,6 +26,11 @@
         </ul>
       </div>
     </div>
+    <div class="att-filter-block">
+      <div class="att-clear-filter">
+          <button type="button" @click="clearFilter()" class="btn btn-light att-clear-btn">clear</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,9 +45,18 @@ export default {
       citys: this.$store.state.defaultData.city
     }
   },
-  computed: {
+  beforeMount () {
+    if (localStorage.getItem('checked')) this.checkedItem = JSON.parse(localStorage.getItem('checked'))
+    if (localStorage.getItem('selected')) this.selectedCity = JSON.parse(localStorage.getItem('selected'))
   },
   methods: {
+    clearFilter () {
+      localStorage.clear()
+      this.checkedItem = []
+      this.selectedCity = 0
+      this.$emit('checked-category', this.checkedItem)
+      this.$emit('select-city', this.selectedCity)
+    },
     countCategory (value) {
       let count = 0
       for (const item of this.$store.state.defaultData.data) {
@@ -55,9 +69,11 @@ export default {
   },
   watch: {
     checkedItem: function (val) {
+      localStorage.setItem('checked', JSON.stringify(this.checkedItem))
       this.$emit('checked-category', val)
     },
     selectedCity: function (val) {
+      localStorage.setItem('selected', JSON.stringify(this.selectedCity))
       this.$emit('select-city', val)
     }
   }
@@ -133,6 +149,12 @@ export default {
     .custom-checkbox .custom-control-input:checked~.att-category-title:after {
       background: url("../assets/img/checkbox_checked.png") !important;
     }
+  }
+  .att-clear-btn {
+      width: 100px;
+      @media (max-width: 768px) {
+          width: 100%;
+      }
   }
   @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (orientation: landscape) {
     .att-sidebar-wrapper {
